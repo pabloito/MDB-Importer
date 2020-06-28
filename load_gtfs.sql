@@ -164,31 +164,31 @@ INSERT INTO pickup_dropoff_types (type_id, description) VALUES
   (3,'Driver arrangement only');
 
 COPY calendar(service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date) 
-FROM '/home/ezimanyi/gtfs_tutorial/calendar.txt' DELIMITER ',' CSV HEADER;
+FROM '/usr/local/src/mdbbaires/calendar.txt' DELIMITER ',' CSV HEADER;
 
 COPY calendar_dates(service_id,date,exception_type) 
-FROM '/home/ezimanyi/gtfs_tutorial/calendar_dates.txt' DELIMITER ',' CSV HEADER;
+FROM '/usr/local/src/mdbbaires/calendar_dates.txt' DELIMITER ',' CSV HEADER;
 
 COPY stop_times(trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type,drop_off_type) 
-FROM '/home/ezimanyi/gtfs_tutorial/stop_times.txt' DELIMITER ',' CSV HEADER;
+FROM '/usr/local/src/mdbbaires/stop_times.txt' DELIMITER ',' CSV HEADER;
 
 COPY trips(route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id) 
-FROM '/home/ezimanyi/gtfs_tutorial/trips.txt' DELIMITER ',' CSV HEADER;
+FROM '/usr/local/src/mdbbaires/trips.txt' DELIMITER ',' CSV HEADER;
 
 COPY agency(agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone)
-FROM '/home/ezimanyi/gtfs_tutorial/agency.txt' DELIMITER ',' CSV HEADER;
+FROM '/usr/local/src/mdbbaires/agency.txt' DELIMITER ',' CSV HEADER;
 
 COPY route_types(route_type,description)
-FROM '/home/ezimanyi/gtfs_tutorial/route_types.txt' DELIMITER ',' CSV HEADER;
+FROM '/usr/local/src/mdbbaires/route_types.txt' DELIMITER ',' CSV HEADER;
 
 COPY routes(route_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color)
-FROM '/home/ezimanyi/gtfs_tutorial/routes.txt' DELIMITER ',' CSV HEADER;
+FROM '/usr/local/src/mdbbaires/routes.txt' DELIMITER ',' CSV HEADER;
 
 COPY shapes(shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence)
-FROM '/home/ezimanyi/gtfs_tutorial/shapes.txt' DELIMITER ',' CSV HEADER;
+FROM '/usr/local/src/mdbbaires/shapes.txt' DELIMITER ',' CSV HEADER;
 
 COPY stops(stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,location_type,parent_station)
-FROM '/home/ezimanyi/gtfs_tutorial/stops.txt' DELIMITER ',' CSV HEADER;
+FROM '/usr/local/src/mdbbaires/stops.txt' DELIMITER ',' CSV HEADER;
 
 -- Add geometry to tables
 INSERT INTO shape_geoms 
