@@ -149,7 +149,7 @@ WITH temp AS (
 	SELECT t.*, LEAD(point_arrival_time) OVER
 		(PARTITION BY trip_id, service_id, stop1_sequence
 		ORDER BY point_arrival_time) AS next_arrival_time
-	FROM trip_point_segs t )
+	FROM trip_points t )
 SELECT DISTINCT trip_id FROM temp WHERE point_arrival_time >= next_arrival_time;
 
 DROP TABLE IF EXISTS trips_input;
