@@ -190,3 +190,7 @@ INSERT INTO trips_mdb(trip_id, route_id, date, trip)
 SELECT trip_id, route_id, date, tgeompointseq(array_agg(tgeompointinst(point_geom, t) ORDER BY T))
 FROM trips_input
 GROUP BY trip_id, route_id, date;
+
+ALTER TABLE trips_mdb ADD COLUMN traj geometry;
+UPDATE trips_mdb
+SET Traj = trajectory(Trip);
