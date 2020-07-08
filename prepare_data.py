@@ -1,39 +1,29 @@
 import pandas as pd
-
-def remove_column(filename, delete_col):
-	df=pd.read_csv(filename)
-	keep_col = []
-	for col in df:
-		if not col in delete_col:
-			keep_col.append(col)
-	df = df[keep_col]
-	df.to_csv(filename, index=False)
+import sys
 
 
-filename = 'stop_times.txt'
-delete_col= ['shape_dist_traveled','stop_headsign']
-remove_column(filename,delete_col)
+def remove_column(filename, keep_col):
+    df = pd.read_csv(filename)
+    df = df[keep_col]
+    df.to_csv(filename, index=False)
 
-filename = 'trips.txt'
-delete_col= ['trip_short_name']
-remove_column(filename,delete_col)
 
-filename = 'agency.txt'
-delete_col= ['agency_fare_url']
-remove_column(filename,delete_col)
+prepend = ''
+if len(sys.argv) > 1:
+    prepend = sys.argv[1]
 
-filename = 'routes.txt'
-delete_col= ['agency_id']
-remove_column(filename,delete_col)
+filename = prepend + '/stop_times.txt'
+keep_col = ['trip_id', 'arrival_time', 'departure_time', 'stop_id', 'stop_sequence']
+remove_column(filename, keep_col)
 
-filename = 'shapes.txt'
-delete_col= ['shape_dist_traveled']
-remove_column(filename,delete_col)
+filename = prepend + '/trips.txt'
+keep_col = ['route_id', 'service_id', 'trip_id', 'shape_id']
+remove_column(filename, keep_col)
 
-filename = 'stops.txt'
-delete_col= ['wheelchair_boarding']
-remove_column(filename,delete_col)
+filename = prepend + '/shapes.txt'
+keep_col = ['shape_id', 'shape_pt_lat', 'shape_pt_lon', 'shape_pt_sequence']
+remove_column(filename, keep_col)
 
-df = pd.read_csv('stops.txt')
-df['parent_station'] = df['parent_station'].astype('Int64')
-df.to_csv('stops.txt', index=False)
+filename = prepend + '/stops.txt'
+keep_col = ['stop_id', 'stop_lat', 'stop_lon']
+remove_column(filename, keep_col)
