@@ -3,6 +3,7 @@ import sys
 
 
 def remove_column(filename, keep_col):
+    print('preparing '+ filename)
     df = pd.read_csv(filename)
     df = df[keep_col]
     df.to_csv(filename, index=False)
@@ -15,6 +16,7 @@ if len(sys.argv) > 1:
 filename = prepend + '/stop_times.txt'
 keep_col = ['trip_id', 'arrival_time', 'departure_time', 'stop_id', 'stop_sequence']
 remove_column(filename, keep_col)
+
 
 filename = prepend + '/trips.txt'
 keep_col = ['route_id', 'service_id', 'trip_id', 'shape_id']
