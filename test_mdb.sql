@@ -1,7 +1,3 @@
-ALTER TABLE trips_mdb ADD COLUMN traj geometry;
-UPDATE trips_mdb
-SET Traj = trajectory(Trip);
-
 SELECT count(*) FROM trips_mdb;
 SELECT count(*) FROM trips_mdb WHERE GeometryType(Traj) = 'POINT';
 SELECT count(*) FROM trips_mdb WHERE GeometryType(Traj) = 'LINESTRING';
