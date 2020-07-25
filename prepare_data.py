@@ -1,12 +1,19 @@
 import pandas as pd
 import sys
+import os
 
 
 def remove_column(filename, keep_col):
     print('preparing '+ filename)
-    df = pd.read_csv(filename)
-    df = df[keep_col]
-    df.to_csv(filename, index=False)
+
+    chunksize = 10 ** 6
+    suffix = '-processed'
+
+    os.remove(filename+suffix)
+
+    for chunk in pd.read_csv(filename, chunksize=chunksize):
+        df = chunk[keep_col]
+        df.to_csv(filename+suffix, index=False, mode='a')
 
 
 prepend = ''
