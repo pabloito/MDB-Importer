@@ -8,10 +8,12 @@ def remove_column(filename, keep_col):
 
     chunksize = 10 ** 6
     suffix = '-processed'
+    header_flag = True
 
     for chunk in pd.read_csv(filename, chunksize=chunksize):
         df = chunk[keep_col]
-        df.to_csv(filename+suffix, index=False, mode='a')
+        df.to_csv(filename+suffix, index=False, header=header_flag, mode='a')
+        header_flag = False
 
     os.remove(filename)
     os.rename(filename+suffix, filename)
