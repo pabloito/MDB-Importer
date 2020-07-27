@@ -69,13 +69,14 @@ WITH temp AS (
 )
 SELECT * FROM temp WHERE stop_sequence2 IS NOT null;
 
-
 \! echo '...Updating trip_segs'
 UPDATE trip_segs t
-SET seg_geom = ST_LineSubstring(shape_geom, perc1, perc2)
+SET seg_geom =
+   (CASE WHEN perc1 > perc2 THEN seg_geom
+    ELSE ST_LineSubstring(shape_geom, perc1, perc2)
+    END)
 FROM shape_geoms g
 WHERE t.shape_id = g.shape_id;
-
 
 \! echo '...Updating trip_segs 2'
 UPDATE trip_segs t
