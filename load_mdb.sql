@@ -1,4 +1,3 @@
-
 \! echo '...Creating trip_stops'
 DROP TABLE IF EXISTS trip_stops;
 CREATE TABLE trip_stops

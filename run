@@ -4,4 +4,4 @@ if [ ! -d .tox ]; then
   echo "\nDone creating virtual environment and installing dependencies.\n"
 fi
 
-.tox/py36/bin/python3.6 prepare_data.py $1
+.tox/py36/bin/python3.6 main.py $1 $2 $3 $4 $5

@@ -95,31 +95,31 @@ CREATE TABLE trips (
 );
 CREATE INDEX trips_trip_id ON trips (trip_id);
 
-INSERT INTO exception_types (exception_type, description) VALUES 
+INSERT INTO exception_types (exception_type, description) VALUES
   (1, 'service has been added'),
   (2, 'service has been removed');
 
 
-COPY calendar(service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date) 
-FROM '/usr/local/src/calendar.txt' DELIMITER ',' CSV HEADER;
+COPY calendar(service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date)
+FROM :path + '/calendar.txt' DELIMITER ',' CSV HEADER;
 
-COPY calendar_dates(service_id,date,exception_type) 
-FROM '/usr/local/src/calendar_dates.txt' DELIMITER ',' CSV HEADER;
+COPY calendar_dates(service_id,date,exception_type)
+FROM :path + '/calendar_dates.txt' DELIMITER ',' CSV HEADER;
 
 COPY stop_times(trip_id,arrival_time,departure_time,stop_id,stop_sequence)
-FROM '/usr/local/src/stop_times.txt' DELIMITER ',' CSV HEADER;
+FROM :path + '/stop_times.txt' DELIMITER ',' CSV HEADER;
 
 COPY trips(route_id,service_id,trip_id,shape_id)
-FROM '/usr/local/src/trips.txt' DELIMITER ',' CSV HEADER;
+FROM :path + '/trips.txt' DELIMITER ',' CSV HEADER;
 
 COPY shapes(shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence)
-FROM '/usr/local/src/shapes.txt' DELIMITER ',' CSV HEADER;
+FROM :path + '/shapes.txt' DELIMITER ',' CSV HEADER;
 
 COPY stops(stop_id,stop_lat,stop_lon)
-FROM '/usr/local/src/stops.txt' DELIMITER ',' CSV HEADER;
+FROM :path + '/stops.txt' DELIMITER ',' CSV HEADER;
 
 -- Add geometry to tables
-INSERT INTO shape_geoms 
+INSERT INTO shape_geoms
 SELECT  shape_id, ST_MakeLine(array_agg(
 	ST_SetSRID(ST_MakePoint(shape_pt_lon, shape_pt_lat),4326) ORDER BY shape_pt_sequence))
 FROM shapes
