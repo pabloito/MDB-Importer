@@ -1,4 +1,5 @@
 import prepare_data
+import process_stop_times
 import sys
 import os
 
@@ -15,6 +16,8 @@ def main():
             path = path[0:-1]
 
         prepare_data.prepare_data(path)
+        process_stop_times.process_stop_times(path)
+
         os.system(f'psql -v path=\'{path}\' -h {host} -p {port} -U {username} -d {dbname} -a -f ./load_gtfs.sql')
 
         if os.path.exists(path+'/calendar.txt'):
