@@ -99,24 +99,12 @@ INSERT INTO exception_types (exception_type, description) VALUES
   (1, 'service has been added'),
   (2, 'service has been removed');
 
-
-COPY calendar(service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date)
-FROM :path + '/calendar.txt' DELIMITER ',' CSV HEADER;
-
-COPY calendar_dates(service_id,date,exception_type)
-FROM :path + '/calendar_dates.txt' DELIMITER ',' CSV HEADER;
-
-COPY stop_times(trip_id,arrival_time,departure_time,stop_id,stop_sequence)
-FROM :path + '/stop_times.txt' DELIMITER ',' CSV HEADER;
-
-COPY trips(route_id,service_id,trip_id,shape_id)
-FROM :path + '/trips.txt' DELIMITER ',' CSV HEADER;
-
-COPY shapes(shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence)
-FROM :path + '/shapes.txt' DELIMITER ',' CSV HEADER;
-
-COPY stops(stop_id,stop_lat,stop_lon)
-FROM :path + '/stops.txt' DELIMITER ',' CSV HEADER;
+COPY calendar(service_id,monday,tuesday,wednesday,thursday,friday,saturday,sunday,start_date,end_date) from :calendar DELIMITER ',' CSV HEADER;
+COPY calendar_dates(service_id,date,exception_type) from :calendar_dates DELIMITER ',' CSV HEADER;
+COPY stop_times(trip_id,arrival_time,departure_time,stop_id,stop_sequence) from :stop_times DELIMITER ',' CSV HEADER;
+COPY trips(route_id,service_id,trip_id,shape_id) from :trips DELIMITER ',' CSV HEADER;
+COPY shapes(shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence) from :shapes DELIMITER ',' CSV HEADER;
+COPY stops(stop_id,stop_lat,stop_lon) from :stops DELIMITER ',' CSV HEADER;
 
 -- Add geometry to tables
 INSERT INTO shape_geoms

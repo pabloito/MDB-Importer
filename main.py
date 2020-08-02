@@ -16,7 +16,10 @@ def main():
 
         prepare_data.prepare_data(path)
 
-        os.system(f'psql -v path=\'{path}\' -h {host} -p {port} -U {username} -d {dbname} -a -f ./load_gtfs.sql')
+        os.system(f'psql -v calendar="\'{path+"/calendar.txt"}\'" -v calendar_dates="\'{path+"/calendar_dates.txt"}\'" \
+                  -v stop_times="\'{path+"/stop_times.txt"}\'" -v trips="\'{path+"/trips.txt"}\'" \
+                  -v shapes="\'{path+"/shapes.txt"}\'" -v stops="\'{path+"/stops.txt"}\'" \
+                  -h {host} -p {port} -U {username} -d {dbname} -a -f ./load_gtfs.sql')
 
         if os.path.exists(path+'/calendar.txt'):
             os.system(f'psql -h {host} -p {port} -U {username} -d {dbname} -a -f ./service_dates0.sql')
