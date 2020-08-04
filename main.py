@@ -16,6 +16,8 @@ def main():
 
         prepare_data.prepare_data(path)
 
+        os.system(f'go run stop_times.go {path}')
+
         os.system(f'psql -v calendar="\'{path+"/calendar.txt"}\'" -v calendar_dates="\'{path+"/calendar_dates.txt"}\'" \
                   -v stop_times="\'{path+"/stop_times.txt"}\'" -v trips="\'{path+"/trips.txt"}\'" \
                   -v shapes="\'{path+"/shapes.txt"}\'" -v stops="\'{path+"/stops.txt"}\'" \
