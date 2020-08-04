@@ -10,7 +10,13 @@ import (
 )
 
 func main() {
-    orPath, prPath := "stop_times.txt", "stop_times_processed.txt"
+    args := os.Args
+    if len(args) != 2 {
+        fmt.Printf("Must receive 1 argument, path to gtfsdata. For example: \n")
+        fmt.Printf("./stop_times ../path/to/gtfs\n")
+        os.Exit(-1)
+    }
+    orPath, prPath := os.Args[1]+"/stop_times.txt", os.Args[1]+"stop_times_processed.txt"
     read, err := os.Open(orPath)
     write, err := os.Create(prPath)
     if err != nil {
