@@ -1,3 +1,0 @@
-﻿fare_id,price,currency_type,payment_method,transfers,transfer_duration
-4,19,ARS,1,,
-5,7,ARS,0,,
