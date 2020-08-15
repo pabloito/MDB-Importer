@@ -39,7 +39,7 @@ CREATE TABLE trips_input (
 \! echo '...Inserting trip_input'
 INSERT INTO trips_input
 SELECT p.id, route_id, agency_id,
-	to_timestamp(instant) as timestamp, ST_GeomFromText('POINT('|| p.latitude ||' '|| p.longitude ||')') as point_geom
+	to_timestamp(instant) as timestamp, ST_GeomFromText('POINT('|| p.longitude ||' '|| p.latitude ||')') as point_geom
 FROM positions p JOIN metadata m ON m.id = p.id;
 
 \! echo '...Creating trip_mdb'
