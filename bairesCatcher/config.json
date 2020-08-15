@@ -1,0 +1,10 @@
+{
+  "db_host": "localhost",
+  "db_port": 5432,
+  "db_user": "postgres",
+  "db_pwd": "postgres",
+  "db_name": "bairescatcher",
+  "api_uri": "https://apitransporte.buenosaires.gob.ar/colectivos/vehiclePositionsSimple?client_id=27da489b8051448987521e7e1d21afee&client_secret=c2941C46a63f45C28247ECEdb59C49B6",
+  "interval": 30,
+  "times": 1
+}
