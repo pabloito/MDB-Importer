@@ -48,16 +48,15 @@ CREATE TABLE trips_mdb (
 	trip_id text NOT NULL,
 	agency_id text NOT NULL,
 	route_id text NOT NULL,
-	date timestamp NOT NULL,
 	trip tgeompoint,
-	PRIMARY KEY (trip_id, date)
+	PRIMARY KEY (trip_id)
 );
 
 \! echo '...Inserting trip_mdb'
-INSERT INTO trips_mdb(trip_id, agency_id, route_id, date, trip)
-SELECT trip_id, agency_id, route_id, date, tgeompointseq(array_agg(tgeompointinst(point_geom, date) ORDER BY date))
+INSERT INTO trips_mdb(trip_id, agency_id, route_id, trip)
+SELECT trip_id, agency_id, route_id, tgeompointseq(array_agg(tgeompointinst(point_geom, date) ORDER BY date))
 FROM trips_input
-GROUP BY trip_id, agency_id, route_id, date;
+GROUP BY trip_id, agency_id, route_id;
 
 \! echo '...Updating trip_mdb'
 ALTER TABLE trips_mdb ADD COLUMN traj geometry;

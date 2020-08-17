@@ -25,55 +25,44 @@ func (c Catcher) fetchAndInsert(iteration int) {
 		log.Fatalf("Error during fetch %s", err.Error())
 		return
 	}
+	skipped := 0
+	duplicates := 0
 	for _, v := range list {
-		err = c.insertMetadata(v)
-		if err != nil {
-			log.Printf("Error during metadata insertion %s", err.Error())
+		if v.Vehicle.Trip.TripId == "" {
+			skipped++
 			continue
 		}
 		err = c.pd.Insert(v)
 		if err != nil {
-			log.Printf("Error during position insertion: ID: %s t: %d, %s", v.ID, v.Timestamp, err.Error())
+			log.Printf("Error during position insertion: ID: %s t: %d, VID: %s, %s", v.Vehicle.Trip.TripId, v.Vehicle.Timestamp, v.Vehicle.Vehicle.Id, err.Error())
+			duplicates++
 			continue
 		}
 	}
-	log.Printf("Finished fetch #%d...", iteration)
+	log.Printf("Finished fetch #%d...\n\tSkipped: %d\n\tDuplicates: %d\n\tAvailable: %d\n", iteration, skipped, duplicates, len(list))
 }
 
-func getPositions() ([]*model.Position, error) {
+func getPositions() ([]*model.Entity, error) {
 	resp, err := http.Get(config.Config.Api_uri)
 	if err != nil {
-		return []*model.Position{}, err
+		return []*model.Entity{}, err
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 
-	var ret []*model.Position
+	var ret *model.Container
 	err = json.Unmarshal(body, &ret)
 	if err != nil {
-		return []*model.Position{}, err
+		return []*model.Entity{}, err
 	}
 
-	return ret, nil
-}
-
-func (c Catcher) insertMetadata(v *model.Position) error {
-	exists, err := c.md.Exists(v)
-	if err != nil {
-		return err
-	}
-	if !exists {
-		return c.md.Insert(v)
-	}
-	return nil
-
+	return ret.Entities, nil
 }
 
 type Catcher struct {
-	md *dao.MetadataDao
 	pd *dao.PositionDao
 }
 
 func InitializeCatcher(df dao.DaoFactory) *Catcher {
-	return &Catcher{df.MD, df.Pos}
+	return &Catcher{df.Pos}
 }
