@@ -22,7 +22,7 @@ func (c Catcher) fetchAndInsert(iteration int) {
 	log.Printf("Entering fetch #%d...", iteration)
 	list, err := getPositions()
 	if err != nil {
-		log.Fatalf("Error during fetch %s", err.Error())
+		log.Printf("Error during fetch %s", err.Error())
 		return
 	}
 	skipped := 0
