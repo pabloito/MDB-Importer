@@ -28,7 +28,7 @@ COPY positions(
 \! echo '...Altering positions'
 ALTER TABLE positions ADD COLUMN point geometry;
 UPDATE positions
-SET point = ST_GeomFromText('POINT('|| longitude ||' '|| latitude ||')');
+SET point = ST_SetSRID(ST_MakePoint(longitude, latitude),4326);
 
 
 \! echo '...Creating trip_mdb'
