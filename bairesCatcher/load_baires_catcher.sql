@@ -38,6 +38,7 @@ CREATE TABLE trips_mdb (
     vehicle_id text NOT NULL,
 	startdate text,
     starttime text,
+    starttimefull timestamp,
 	trip tgeompoint,
 	PRIMARY KEY (trip_id, vehicle_id, startdate, starttime)
 );
@@ -48,8 +49,9 @@ INSERT INTO trips_mdb(
     vehicle_id,
 	startdate,
     starttime,
+    starttimefull,
 	trip)
-SELECT trip_id, vehicle_id, startdate, starttime,
+SELECT trip_id, vehicle_id, startdate, starttime, TO_TIMESTAMP(CONCAT(startdate,starttime),'YYYYMMDDHH24:MI:SS'),
  tgeompointseq(array_agg(tgeompointinst(point, to_timestamp(instant)) ORDER BY instant))
 FROM positions
 GROUP BY trip_id, vehicle_id, starttime, startdate;
