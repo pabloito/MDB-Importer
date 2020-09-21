@@ -53,7 +53,7 @@ INSERT INTO trips_mdb(
 	trip)
 SELECT trip_id, vehicle_id, startdate, starttime, TO_TIMESTAMP(CONCAT(startdate,starttime),'YYYYMMDDHH24:MI:SS'),
  tgeompointseq(array_agg(tgeompointinst(point, to_timestamp(instant)) ORDER BY instant))
-FROM positions
+FROM positions where startdate != ''
 GROUP BY trip_id, vehicle_id, starttime, startdate;
 
 \! echo '...Updating trip_mdb'
