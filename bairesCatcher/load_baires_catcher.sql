@@ -32,8 +32,8 @@ SET point = ST_SetSRID(ST_MakePoint(longitude, latitude),4326);
 
 
 \! echo '...Creating trip_mdb'
-DROP TABLE IF EXISTS trips_mdb;
-CREATE TABLE trips_mdb (
+DROP TABLE IF EXISTS trips_mdbrt;
+CREATE TABLE trips_mdbrt (
     trip_id text NOT NULL,
     vehicle_id text NOT NULL,
 	startdate text,
@@ -44,19 +44,22 @@ CREATE TABLE trips_mdb (
 );
 
 \! echo '...Inserting trip_mdb'
-INSERT INTO trips_mdb(
+INSERT INTO trips_mdbrt(
     trip_id,
     vehicle_id,
 	startdate,
     starttime,
-    starttimefull,
 	trip)
-SELECT trip_id, vehicle_id, startdate, starttime, TO_TIMESTAMP(CONCAT(startdate,starttime),'YYYYMMDDHH24:MI:SS'),
- tgeompointseq(array_agg(tgeompointinst(point, to_timestamp(instant)) ORDER BY instant))
-FROM positions where startdate != ''
+SELECT trip_id, vehicle_id, startdate, starttime, tgeompointseq(array_agg(tgeompointinst(point, to_timestamp(instant)) ORDER BY instant))
+FROM positions
+WHERE startdate IS NOT NULL
 GROUP BY trip_id, vehicle_id, starttime, startdate;
 
+UPDATE trips_mdbrt
+SET starttimefull = TO_TIMESTAMP(CONCAT(startdate, ' ',starttime),'YYYYMMDD HH24:MI:SS') 
+WHERE startdate != ''
+
 \! echo '...Updating trip_mdb'
-ALTER TABLE trips_mdb ADD COLUMN traj geometry;
-UPDATE trips_mdb
+ALTER TABLE trips_mdbrt ADD COLUMN traj geometry;
+UPDATE trips_mdbrt
 SET Traj = trajectory(Trip);
