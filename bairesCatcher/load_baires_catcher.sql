@@ -50,14 +50,14 @@ INSERT INTO trips_mdbrt(
 	startdate,
     starttime,
 	trip)
-SELECT trip_id, vehicle_id, startdate, starttime, tgeompointseq(array_agg(tgeompointinst(point, to_timestamp(instant)) ORDER BY instant))
+SELECT trip_id, vehicle_id, startdate, starttime, tgeompointseq(array_agg(tgeompointinst(point, (to_timestamp(instant) at time zone 'America/Argentina/Buenos_Aires')) ORDER BY instant))
 FROM positions
 WHERE startdate IS NOT NULL
 GROUP BY trip_id, vehicle_id, starttime, startdate;
 
 UPDATE trips_mdbrt
 SET starttimefull = TO_TIMESTAMP(CONCAT(startdate, ' ',starttime),'YYYYMMDD HH24:MI:SS') 
-WHERE startdate != ''
+WHERE startdate != '' AND starttime < '24:00:00';
 
 \! echo '...Updating trip_mdb'
 ALTER TABLE trips_mdbrt ADD COLUMN traj geometry;
