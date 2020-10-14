@@ -1,11 +1,11 @@
-DROP TABLE bondis_1;
-CREATE TABLE bondis_1 (
+-- Segments where realtime was close to static.
+-- Tolerance 100m and 20s
+DROP TABLE heatmap1;
+CREATE TABLE heatmap1 (
   trip_id text,
   seg_geom geometry
 );
-
-\! echo '...Inserting trip_mdb'
-INSERT INTO bondis_1(
+INSERT INTO heatmap1(
     trip_id,
     seg_geom)
 SELECT ST.trip_id,
@@ -17,14 +17,14 @@ WHERE ST.trip_id = RT.trip_id
   AND atPeriodSet(ST.Trip, getTime(atValue(tdwithin(ST.Trip, RT.Trip, 20), TRUE))) IS NOT NULL
 ORDER BY ST.trip_id;
 
-DROP TABLE bondis_2;
-CREATE TABLE bondis_2 (
+-- Segments where realtime was close to static.
+-- Tolerance 50m and 10s
+DROP TABLE heatmap2;
+CREATE TABLE heatmap2 (
   trip_id text,
   seg_geom geometry
 );
-
-\! echo '...Inserting trip_mdb'
-INSERT INTO bondis_2(
+INSERT INTO heatmap2(
     trip_id,
     seg_geom)
 SELECT ST.trip_id,
@@ -36,14 +36,14 @@ WHERE ST.trip_id = RT.trip_id
   AND atPeriodSet(ST.Trip, getTime(atValue(tdwithin(ST.Trip, RT.Trip, 10), TRUE))) IS NOT NULL
 ORDER BY ST.trip_id;
 
-DROP TABLE bondis_3;
-CREATE TABLE bondis_3 (
+-- Segments where realtime was close to static.
+-- Tolerance 25m and 10s
+DROP TABLE heatmap3;
+CREATE TABLE heatmap3 (
   trip_id text,
   seg_geom geometry
 );
-
-\! echo '...Inserting trip_mdb'
-INSERT INTO bondis_3(
+INSERT INTO heatmap3(
     trip_id,
     seg_geom)
 SELECT ST.trip_id,
@@ -55,14 +55,14 @@ WHERE ST.trip_id = RT.trip_id
   AND atPeriodSet(ST.Trip, getTime(atValue(tdwithin(ST.Trip, RT.Trip, 5), TRUE))) IS NOT NULL
 ORDER BY ST.trip_id;
 
-DROP TABLE bondis_4;
-CREATE TABLE bondis_4 (
+-- Segments where realtime was close to static.
+-- Tolerance 10m and 2s
+DROP TABLE heatmap4;
+CREATE TABLE heatmap4 (
   trip_id text,
   seg_geom geometry
 );
-
-\! echo '...Inserting trip_mdb'
-INSERT INTO bondis_4(
+INSERT INTO heatmap4(
     trip_id,
     seg_geom)
 SELECT ST.trip_id,
@@ -74,15 +74,14 @@ WHERE ST.trip_id = RT.trip_id
   AND atPeriodSet(ST.Trip, getTime(atValue(tdwithin(ST.Trip, RT.Trip, 2), TRUE))) IS NOT NULL
 ORDER BY ST.trip_id;
 
-
-DROP TABLE bondis_5;
-CREATE TABLE bondis_5 (
+-- Segments where realtime was close to static.
+-- Tolerance 5m and 1s
+DROP TABLE heatmap5;
+CREATE TABLE heatmap5 (
   trip_id text,
   seg_geom geometry
 );
-
-\! echo '...Inserting trip_mdb'
-INSERT INTO bondis_5(
+INSERT INTO heatmap5(
     trip_id,
     seg_geom)
 SELECT ST.trip_id,
