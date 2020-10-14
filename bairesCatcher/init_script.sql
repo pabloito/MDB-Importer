@@ -10,3 +10,15 @@ CREATE TABLE IF NOT EXISTS positions
     directionId int,
     PRIMARY KEY (trip_id, vehicle_id, instant)
 );
+
+CREATE TABLE IF NOT EXISTS trips_mdb_rt
+(
+  trip_id text NOT NULL,
+  vehicle_id text NOT NULL,
+  startdate text NOT NULL,
+  starttime text NOT NULL,
+  starttimefull timestamp,
+  trip tgeompoint,
+  traj geometry,
+  CONSTRAINT trips_mdb_pkey PRIMARY KEY (trip_id, vehicle_id, startdate, starttime)
+)
