@@ -1,0 +1,10 @@
+{
+  "db_host": "localhost",
+  "db_port": 5432,
+  "db_user": "postgres",
+  "db_pwd": "postgres",
+  "db_name": "bairescatcher",
+  "api_uri": "[API_URI]",
+  "interval": 30,
+  "times": 20
+}

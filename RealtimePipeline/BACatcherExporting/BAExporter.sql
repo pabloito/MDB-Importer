@@ -1,0 +1,1 @@
+COPY positions TO 'positions.csv' DELIMITER ',' CSV HEADER;
